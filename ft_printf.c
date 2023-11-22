@@ -1,9 +1,4 @@
 #include "ft_printf.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 
 int	ft_putchar(const char c)
 {
@@ -17,29 +12,36 @@ int	ft_putstr_null(const char *str)
 
 	count = 0;
 	if (!str)
-		count += ft_putstr_null("(null)");
-	while (str && str[count])
-	{
-		write(1, str + count, 1);
-		count++;
-	}
+		while ("(null)"[count])
+			ft_putchar("(null)"[count++]);
+	else
+		while (str && str[count])
+		{
+			write(1, str + count, 1);
+			count++;
+		}
 	return (count);
 }
 
-int	ft_print_base(size_t nb, const char *base, size_t len_base)
+int	ft_print_base(long nb, const char *base, size_t len_base, char flag)
 {
-	size_t	count;
-	size_t	n;
+	int     count;
+	long    n;
 
 	n = nb;
 	count = 0;
-	if (n >= len_base)
-		count += ft_print_base(n / len_base, base, len_base);
+	if (flag == 'p')
+	    count += ft_putstr_null("0x");
+	if (flag == '-' && n < 0)
+	{
+	    count += ft_putchar('-');
+	    n = -n;
+	}
+	if (n >= (long)len_base)
+		count += ft_print_base(n / len_base, base, len_base, 0);
 	count += ft_putchar(base[n % len_base]);
 	return (count);
 }
-
-
 
 int	ft_caller(const char *str, va_list ptr)
 {
@@ -48,17 +50,17 @@ int	ft_caller(const char *str, va_list ptr)
 	else if (*str == 'c')
 		return ft_putchar(va_arg(ptr, int));
 	else if (*str == 'd' || *str == 'i')
-		return ft_print_base(va_arg(ptr, int), "0123456789", 10);
+		return ft_print_base(va_arg(ptr, int), "0123456789", 10, '-');
 	else if (*str == 'p')
-		return ft_print_base(va_arg(ptr, unsigned int), "0123456789abcdef", 16);
+		return ft_print_base(va_arg(ptr, unsigned long), "0123456789abcdef", 16, 'p');
 	else if (*str == 'u')
-		return ft_print_base(va_arg(ptr, unsigned int), "0123456789", 10);
+		return ft_print_base(va_arg(ptr, unsigned int), "0123456789", 10, 0);
 	else if (*str == 'x')
-		return ft_print_base(va_arg(ptr, unsigned int), "0123456789abcdef", 16);
+		return ft_print_base(va_arg(ptr, unsigned int), "0123456789abcdef", 16, 0);
 	else if (*str == 'X')
-		return ft_print_base(va_arg(ptr, unsigned int), "0123456789ABCDEF", 16);
+		return ft_print_base(va_arg(ptr, unsigned int), "0123456789ABCDEF", 16, 0);
 	else if (*str == '%')
-		return ft_putchar(va_arg(ptr, int));
+		return ft_putchar('%');
 	else
 	{
 		ft_putchar('%');
@@ -71,6 +73,7 @@ int	ft_printf(const char *str, ...)
 {
 	int		count;
 	va_list	ptr;
+	int     checker;
 
 	count = 0;
 	va_start(ptr, str);
@@ -79,7 +82,10 @@ int	ft_printf(const char *str, ...)
 		if (*str == '%')
 		{
 			str++;
-			count += ft_caller(str, ptr);
+			checker = ft_caller(str, ptr);
+			if (checker == -1)
+			    return (-1);
+			count += checker;
 		}
 		else
 			count += ft_putchar(*str);
@@ -87,17 +93,4 @@ int	ft_printf(const char *str, ...)
 	}
 	va_end(ptr);
 	return (count);
-}
-
-
-int main()
-{
-	int x = ft_printf("test int => %p", &x);
-
-	printf("\nmy test = %d", x);
-	printf("\n\n");
-
-	x = printf("test int => %p", &x);
-	printf("\n   test = %d", x);
-	printf("\n\n");
 }
