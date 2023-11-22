@@ -6,7 +6,7 @@
 #    By: souahidi <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/30 11:40:23 by souahidi          #+#    #+#              #
-#    Updated: 2023/11/22 10:38:36 by souahidi         ###   ########.fr        #
+#    Updated: 2023/11/22 20:20:09 by souahidi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ all: $(NAME)
 $(NAME): $(OFILES)
 
 .c.o:
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I. -c $< -o $@
 	$(AR) $(NAME) $@
 
 ## bonus: $(OBFILES)

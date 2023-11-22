@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: souahidi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/22 20:12:36 by souahidi          #+#    #+#             */
+/*   Updated: 2023/11/22 20:22:50 by souahidi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-int	ft_putchar(const char c)
+static int	ft_putchar(const char c)
 {
 	write(1, &c, 1);
 	return (1);
 }
 
-int	ft_putstr_null(const char *str)
+static int	ft_putstr_null(const char *str)
 {
 	int	count;
 
@@ -15,52 +27,57 @@ int	ft_putstr_null(const char *str)
 		while ("(null)"[count])
 			ft_putchar("(null)"[count++]);
 	else
+	{
 		while (str && str[count])
 		{
 			write(1, str + count, 1);
 			count++;
 		}
+	}
 	return (count);
 }
 
-int	ft_print_base(long nb, const char *base, size_t len_base, char flag)
+static int	ft_pbase(long nb, const char *base, size_t len_base, char flag)
 {
-	int     count;
-	long    n;
+	int		count;
+	long	n;
 
 	n = nb;
 	count = 0;
 	if (flag == 'p')
-	    count += ft_putstr_null("0x");
+		count += ft_putstr_null("0x");
 	if (flag == '-' && n < 0)
 	{
-	    count += ft_putchar('-');
-	    n = -n;
+		count += ft_putchar('-');
+		n = -n;
 	}
 	if (n >= (long)len_base)
-		count += ft_print_base(n / len_base, base, len_base, 0);
+		count += ft_pbase(n / len_base, base, len_base, 0);
 	count += ft_putchar(base[n % len_base]);
 	return (count);
 }
 
-int	ft_caller(const char *str, va_list ptr)
+static int	ft_caller(const char *str, va_list ptr)
 {
 	if ((*str) == 's')
-		return ft_putstr_null(va_arg(ptr, char *));
+		return (ft_putstr_null(va_arg(ptr, char *)));
 	else if (*str == 'c')
-		return ft_putchar(va_arg(ptr, int));
+		return (ft_putchar(va_arg(ptr, int)));
 	else if (*str == 'd' || *str == 'i')
-		return ft_print_base(va_arg(ptr, int), "0123456789", 10, '-');
+		return (ft_pbase(va_arg(ptr, int), "0123456789", 10, '-'));
 	else if (*str == 'p')
-		return ft_print_base(va_arg(ptr, unsigned long), "0123456789abcdef", 16, 'p');
+		return (ft_pbase(va_arg(ptr, unsigned long), "0123456789abcdef", 16,
+				'p'));
 	else if (*str == 'u')
-		return ft_print_base(va_arg(ptr, unsigned int), "0123456789", 10, 0);
+		return (ft_pbase(va_arg(ptr, unsigned int), "0123456789", 10, 0));
 	else if (*str == 'x')
-		return ft_print_base(va_arg(ptr, unsigned int), "0123456789abcdef", 16, 0);
+		return (ft_pbase(va_arg(ptr, unsigned int), "0123456789abcdef", 16, 0));
 	else if (*str == 'X')
-		return ft_print_base(va_arg(ptr, unsigned int), "0123456789ABCDEF", 16, 0);
+		return (ft_pbase(va_arg(ptr, unsigned int), "0123456789ABCDEF", 16, 0));
 	else if (*str == '%')
-		return ft_putchar('%');
+		return (ft_putchar('%'));
+	else if (*str == '\0')
+		return (-1);
 	else
 	{
 		ft_putchar('%');
@@ -73,7 +90,7 @@ int	ft_printf(const char *str, ...)
 {
 	int		count;
 	va_list	ptr;
-	int     checker;
+	int		checker;
 
 	count = 0;
 	va_start(ptr, str);
@@ -84,7 +101,7 @@ int	ft_printf(const char *str, ...)
 			str++;
 			checker = ft_caller(str, ptr);
 			if (checker == -1)
-			    return (-1);
+				return (-1);
 			count += checker;
 		}
 		else
