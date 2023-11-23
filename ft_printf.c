@@ -6,7 +6,7 @@
 /*   By: souahidi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 20:12:36 by souahidi          #+#    #+#             */
-/*   Updated: 2023/11/22 20:22:50 by souahidi         ###   ########.fr       */
+/*   Updated: 2023/11/23 09:10:01 by souahidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,27 @@ static int	ft_putstr_null(const char *str)
 
 static int	ft_pbase(long nb, const char *base, size_t len_base, char flag)
 {
-	int		count;
-	long	n;
+	int				count;
+	long			n;
+	unsigned long ln;
 
 	n = nb;
 	count = 0;
 	if (flag == 'p')
+	{
+		if (n == 0)
+			return (ft_putstr_null("(nil)");
 		count += ft_putstr_null("0x");
+	}
 	if (flag == '-' && n < 0)
 	{
 		count += ft_putchar('-');
 		n = -n;
 	}
-	if (n >= (long)len_base)
-		count += ft_pbase(n / len_base, base, len_base, 0);
-	count += ft_putchar(base[n % len_base]);
+	ln = (unsigned long)n;
+	if (ln >= (unsigned long)len_base)
+		count += ft_pbase(ln / len_base, base, len_base, 0);
+	count += ft_putchar(base[ln % len_base]);
 	return (count);
 }
 
