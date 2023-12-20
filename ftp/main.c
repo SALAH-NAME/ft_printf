@@ -38,6 +38,7 @@ int	main(void)
 {
 
 	//ft_printf(NULL,'A', "HELLO TO THE WORLD");
-	printf(NULL);
+	// printf(NULL);
+	ft_printf("hello to %333 the world\n");
 	return (0);
 }

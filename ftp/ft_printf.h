@@ -13,6 +13,10 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
+# ifndef BUFFER_SIZE
+# define BUFFER_SIZE 1024
+# endif
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -23,7 +27,26 @@ int	ft_printf(const char *str, ...);
 int	ft_putstr_null(const char *s);
 int	ft_putchar(const char c);
 
-typedef int (*handler_func) (va_list args);
+typedef struct s_flags
+{
+    int width;
+    int minus;
+    int zero;
+    int point;
+    int hash;
+    int space;
+    int plus;
+}   t_flags;
+
+typedef struct s_flags_handler
+{
+    char c;
+    int (*flags_handler)(const char *str, t_flags *flags);
+}
+
+typedef int (*flags_handler)(const char *str, t_flags *flags);
+typedef flags_handler t_get_func;
+
 
 int	va_char(va_list args);
 int	va_str(va_list args);

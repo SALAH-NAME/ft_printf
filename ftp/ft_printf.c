@@ -90,7 +90,7 @@ int ft_put_add(unsigned long nb, int add)
 
 int	ft_onset(char *set, char c)
 {
-	while (set)
+	while (set && *set)
 	{
 		if (*set == c)
 			return (c);
@@ -99,25 +99,150 @@ int	ft_onset(char *set, char c)
 	return (0);
 }
 
-int	ft_handler(va_list args, char *str)
+int ft_len_nbr(long nb, int base)
 {
-	int	i;
+    int count;
 
-	i = 0;
-//	while (str && str[i])
-//	{
-//		if (ft_onset("-0.# +", str[i]))
-//		{
-//		}
-//	}
+    count = 1;
+    if (nb < 0)
+    {
+        nb = -nb;
+        count++;
+    }
+    while (nb /= base)
+        count++;
+    return (count);
 }
+
+
+int ft_len_unbr(unsigned long nb, int base)
+{
+    int count;
+
+    count = 1;
+    while (nb /= base)
+        count++;
+    return (count);
+}
+
+// int print_buf(char *buf, unsigned int nbuf)
+// {
+//     return (write(1, buf, nbuf));
+// }
+
+// unsigned int handle_buf(char *buf, char c, unsigned int ibuf)
+// {
+//     if (ibuf == BUFFER_SIZE)
+//     {
+//         print_buf(buf, ibuf);
+//         ibuf = 0;
+//     }
+//     buf[ibuf] = c;
+//     ibuf++;
+//     return (ibuf);
+// }
+
+int ft_handler(const char *str, va_list args)
+{
+    t_flags flags;
+    int i;
+
+    i = 0;
+    flags = {0, 0, 0, 0, 0, 0, 0};
+    if (str && ft_onset("cspdiuxX%",str[i]))
+        ft_specifier_handler();
+    else if (str && ft_onset("-0.# +123456789",str[i]))
+    {
+        ft_flags_handler(str, &flags);
+    }
+    else
+
+}
+
+int ft_specifier_handler(const char *str, va_list args)
+{
+    
+
+}
+
+int ft_flags_first(const char *str, t_flags *flags, int c)
+{
+    int i;
+
+    i = 0;
+    if (c == '-')
+    {
+        flags->minus++;
+        if ((str + 1) && str[i] > '0' && str[i] <= '9')
+        flags->minus = ft_atoi(str + 1);
+        i += ft_len_unbr(flags->minus, 10);
+    }
+    else if (c == '0')
+    {
+        flags->zero++;
+        if ((str + 1) && str[i] > '0' && str[i] <= '9')
+        flags->zero = ft_atoi(str + 1);
+        i += ft_len_unbr(flags->zero, 10);
+    }
+    else if (c == '.')
+    {
+        flags->point++;
+        if ((str + 1) && str[i] > '0' && str[i] <= '9')
+        flags->point = ft_atoi(str + 1);
+        i += ft_len_unbr(flags->point, 10);
+    }
+    else
+        return (-1);
+}
+
+int ft_flags_handler(const char *str, t_flags *flags)
+{
+    int i;
+    int c;
+
+    i = 0;
+    while (str)
+    {
+        c = ft_onset("-0.# +123456789",str[i++]);
+        if (!c)
+            break;
+
+        else if (c == '#')
+            flags->hash++;
+        else if (c == ' ')
+            flags->space++;
+        else if (c == '+')
+            flags->plus++;
+        else if (c > '0' && c <= '9')
+        {
+            flags->width = ft_atoi(str + i - 1);
+            i += ft_len_unbr(flags->width) - 1;
+        }
+    }
+}
+    
 
 int	ft_printf(const char *str, ...)
 {
-	
+	int i;
+
 	va_list	args;
 
 	va_start(args, str);
+    i = 0;
+    while (str && str[i])
+    {
+        if (str[i] == '%')
+        {
+            if (!str[i + 1])
+                return (-1);
+            else
+                ft_handler(str + 1, args)
+        }
+        else
+            ft_put_char(str[i]);
+        i++;
+    }
 
 	
 	va_end(args);
