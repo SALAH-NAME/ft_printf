@@ -11,29 +11,32 @@
 # **************************************************************************** #
 
 CC			=	cc
-CFLAGS	=	-Wall -Wextra -g\
+CFLAGS		=	-Wall -Wextra -g\
 #-Werror
 
 NAME		=	libftprintf.a
 
-LIBFT		=	./libft/libft.a
 
-SRC_DIRS= ./src
-INC_DIRS= ./includes
+LIBFT = libft
+LIBFT_LIB = libft.a
 
-CFILES 	= ft_printf.c \
-		  flags_handle_1.c specifier_handle_1.c utiles.c print_flags.c \
-		  initializer.c get_functions.c
-## CBFILES = _bonus.c \
+SRC_DIRS	=	./src
+INC_DIRS	=	./includes
 
-CHEADER = ft_printf.h
-## CBHEADER= ft_printf_bonus.h
+CFILES 		=	ft_printf.c ft_onset.c ft_put_char.c reset_flags.c ft_handler.c \
+				get_functions.c ft_initializer.c handle_point.c handle_minus.c \
+				handle_hash.c handle_space.c handle_zero.c handle_width.c ft_put_nchar.c \
+				mask_flags.c handle_char.c ft_print_sign.c ft_print_width.c ft_print_prefix.c \
+				ft_print_zero.c ft_put_nstr.c handle_str.c ft_put_base.c ft_put_str.c ft_len_unbr.c \
+				handle_lhex.c handle_uhex.c handle_uint.c handle_nbr.c ft_put_nbr.c ft_len_nbr.c handle_ptc.c\
+				ft_atoi.c ft_isdigit.c ft_strlen.c handle_plus.c handle_add.c
 
-OFILES	=	$(CFILES:.c=.o)
-## OBFILES = $(CBFILES:.c=.o)
+CHEADER 	=	ft_printf.h
 
-AR = ar rcs
-RM = rm -f
+OFILES		=	$(CFILES:.c=.o)
+
+AR 			= 	ar rcs
+RM 			=	rm -f
 
 all: $(NAME)
 
@@ -43,14 +46,10 @@ $(NAME): $(OFILES)
 	$(CC) $(CFLAGS) -I. -c $< -o $@
 	$(AR) $(NAME) $@
 
-## bonus: $(OBFILES)
+m:$(NAME) 
+	$(CC) $(CFLAGS) main.c $(NAME)  -o a.out
 
-m:$(NAME) $(LIBFT)
-	$(CC) $(CFLAGS) main.c $(NAME) $(LIBFT)
-
-
-mf:$(NAME)
-	$(CC) $(CFLAGS) -g -fsanitize=address main.c libftprintf.a
+bonus:$(NAME)
 
 clean:
 	$(RM) $(OFILES)
@@ -60,4 +59,4 @@ fclean: clean
 
 re: fclean m
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

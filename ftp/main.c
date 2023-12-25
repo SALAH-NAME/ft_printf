@@ -1,44 +1,61 @@
 #include "./ft_printf.h"
 
-void	ft_test_c(void)
-{
-	int	n;
+// void	ft_test_c(void)
+// {
+// 	int	n;
 
-	printf("\nprintf(\"%%c\", 65); => ");
-	n = printf("%c", 65);
-	printf("\nreturned => %d\n", n);
-	printf("\nft_printf(\"%%c\", 65); => ");
-	fflush(stdout);
-	n = ft_printf("%c", 65);
-	printf("\nreturned => %d\n", n);
-	printf("\nprintf(\"%%c\", 7); => ");
-	n = printf("%c", 7);
-	printf("\nreturned => %d\n", n);
-	printf("\nprintf(\"%%c\", 7); => ");
-	fflush(stdout);
-	n = ft_printf("%c", 7);
-	printf("\nreturned => %d\n", n);
-	printf("\nprintf(\"%%%%c\"); => ");
-	n = printf("%%c");
-	printf("\nreturned => %d\n", n);
-	printf("\nprintf(\"%%%%c\"); => ");
-	fflush(stdout);
-	n = ft_printf("%%c");
-	printf("\nreturned => %d\n", n);
-	printf("\nprintf(\"%%c\", 0); => ");
-	n = printf("%c", 0);
-	printf("\nreturned => %d\n", n);
-	printf("\nprintf(\"%%c\", 0); => ");
-	fflush(stdout);
-	n = ft_printf("%c", 0);
-	printf("\nreturned => %d\n", n);
-}
+// 	printf("\nprintf(\"%%c\", 65); => ");
+// 	n = printf("%c", 65);
+// 	printf("\nreturned => %d\n", n);
+// 	printf("\nft_printf(\"%%c\", 65); => ");
+// 	fflush(stdout);
+// 	n = ft_printf("%c", 65);
+// 	printf("\nreturned => %d\n", n);
+// 	printf("\nprintf(\"%%c\", 7); => ");
+// 	n = printf("%c", 7);
+// 	printf("\nreturned => %d\n", n);
+// 	printf("\nprintf(\"%%c\", 7); => ");
+// 	fflush(stdout);
+// 	n = ft_printf("%c", 7);
+// 	printf("\nreturned => %d\n", n);
+// 	printf("\nprintf(\"%%%%c\"); => ");
+// 	n = printf("%%c");
+// 	printf("\nreturned => %d\n", n);
+// 	printf("\nprintf(\"%%%%c\"); => ");
+// 	fflush(stdout);
+// 	n = ft_printf("%%c");
+// 	printf("\nreturned => %d\n", n);
+// 	printf("\nprintf(\"%%c\", 0); => ");
+// 	n = printf("%c", 0);
+// 	printf("\nreturned => %d\n", n);
+// 	printf("\nprintf(\"%%c\", 0); => ");
+// 	fflush(stdout);
+// 	n = ft_printf("%c", 0);
+// 	printf("\nreturned => %d\n", n);
+// }
 
 int	main(void)
 {
 
 	//ft_printf(NULL,'A', "HELLO TO THE WORLD");
 	// printf(NULL);
-	ft_printf("hello to %333 the world\n");
+	// printf("%");
+	ft_put_char('\n');
+	fflush(stdout);
+
+	int x;
+	char *str = "% +0-20.012d$";
+	x = printf(str, 42);
+	fflush(stdout);
+	ft_put_char('\n');
+	ft_put_char('\n');
+	fflush(stdout);
+	x = ft_printf(str,  42);
+	fflush(stdout);
+	ft_put_char('\n');
+	ft_put_char('\n');
+
+	printf("x= %d", x);
+
 	return (0);
 }
