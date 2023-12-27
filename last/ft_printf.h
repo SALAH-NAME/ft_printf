@@ -6,7 +6,7 @@
 /*   By: souahidi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 20:10:53 by souahidi          #+#    #+#             */
-/*   Updated: 2023/12/25 11:14:48 by souahidi         ###   ########.fr       */
+/*   Updated: 2023/12/26 11:47:08 by souahidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 # define FT_PRINTF_H
 
 # include <stdarg.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
 # include <unistd.h>
 
 typedef struct s_flags

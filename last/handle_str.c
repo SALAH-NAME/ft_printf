@@ -6,7 +6,7 @@
 /*   By: souahidi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 11:28:14 by souahidi          #+#    #+#             */
-/*   Updated: 2023/12/25 11:33:19 by souahidi         ###   ########.fr       */
+/*   Updated: 2023/12/26 11:54:43 by souahidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_flags	mask_str(void)
 static void	handle_null(char **str, t_flags *flags, int *len)
 {
 	if (*str)
-		*len = strlen(*str);
+		*len = ft_strlen(*str);
 	if ((!(*str)) && flags->point && (flags->point_len < 6))
 		flags->point_len = 0;
 	else if ((!(*str)))

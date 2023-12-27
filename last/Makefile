@@ -6,17 +6,14 @@
 #    By: souahidi <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/30 11:40:23 by souahidi          #+#    #+#              #
-#    Updated: 2023/11/22 20:20:09 by souahidi         ###   ########.fr        #
+#    Updated: 2023/12/27 11:48:22 by souahidi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror
 
 NAME		=	libftprintf.a
-
-LIBFT = libft
-LIBFT_LIB = libft.a
 
 CFILES 		=	ft_printf.c ft_onset.c ft_put_char.c reset_flags.c ft_handler.c \
 				get_functions.c ft_initializer.c handle_point.c handle_minus.c \
@@ -41,9 +38,6 @@ $(NAME): $(OFILES)
 	$(CC) $(CFLAGS) -I. -c $< -o $@
 	$(AR) $(NAME) $@
 
-m:$(NAME) 
-	$(CC) $(CFLAGS) main.c $(NAME)  -o a.out
-
 bonus:$(NAME)
 
 clean:
@@ -52,6 +46,6 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 
-re: fclean
+re: fclean all
 
 .PHONY: all clean fclean re
